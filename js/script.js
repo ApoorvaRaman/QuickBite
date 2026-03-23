@@ -1,95 +1,207 @@
-let cart = JSON.parse(localStorage.getItem('cart')||'[]');
+// ======================= CART INITIALIZATION =======================
+let cart;
 
-function save(){localStorage.setItem('cart',JSON.stringify(cart));renderCart();}
+try {
+  cart = JSON.parse(localStorage.getItem('cart')) || [];
+} catch {
+  cart = [];
+}
 
-function addToCart(name,price){
-  let it=cart.find(i=>i.name===name);
-  if(it) it.qty++; else cart.push({name,price,qty:1});
+// ======================= SAVE FUNCTION =======================
+function save() {
+  cart = cart.filter(item => item && item.name);
+  localStorage.setItem('cart', JSON.stringify(cart));
+  renderCart();
+}
+
+// ======================= ADD TO CART =======================
+function addToCart(name, price) {
+  let item = cart.find(i => i.name === name);
+
+  if (item) {
+    item.qty++;
+  } else {
+    cart.push({
+      name: name,
+      price: Number(price) || 0,
+      qty: 1
+    });
+  }
+
   save();
 }
 
-function changeQty(name,delta){
-  let it=cart.find(i=>i.name===name); if(!it) return;
-  it.qty+=delta; if(it.qty<=0) cart=cart.filter(i=>i.name!==name);
+// ======================= CHANGE QUANTITY =======================
+function changeQty(name, delta) {
+  let item = cart.find(i => i.name === name);
+  if (!item) return;
+
+  item.qty += delta;
+
+  if (item.qty <= 0) {
+    cart = cart.filter(i => i.name !== name);
+  }
+
   save();
 }
 
-function removeItem(name){cart=cart.filter(i=>i.name!==name);save();}
-
-function total(){
-  if(!cart || cart.length===0) return 0;
-  return cart.reduce((sum,i)=> sum + (i.price * i.qty || 0), 0);
+// ======================= REMOVE ITEM =======================
+function removeItem(name) {
+  cart = cart.filter(i => i.name !== name);
+  save();
 }
 
+// ======================= TOTAL CALCULATION =======================
+function total() {
+  let sum = 0;
 
-function renderCart(){
-  const box=document.getElementById('cart-items'); if(!box) return;
-  box.innerHTML='';
+  cart.forEach(item => {
+    const price = Number(item.price) || 0;
+    const qty = Number(item.qty) || 0;
+    sum += price * qty;
+  });
+
+  return sum;
+}
+
+// ======================= RENDER CART =======================
+function renderCart() {
+  const box = document.getElementById('cart-items');
+  if (!box) return;
+
+  box.innerHTML = '';
+
   let totalAmount = 0;
 
-  cart.forEach(i=>{
-    const itemTotal = i.price * i.qty;
+  if (cart.length === 0) {
+    box.innerHTML = "<p>Your cart is empty</p>";
+  }
+
+  cart.forEach(item => {
+    if (!item || !item.name) return;
+
+    const price = Number(item.price) || 0;
+    const qty = Number(item.qty) || 0;
+    const itemTotal = price * qty;
+
     totalAmount += itemTotal;
 
-    box.innerHTML+=`<div class="row"><div><b>${i.name}</b><br>₹${i.price} x ${i.qty}</div>
-      <div class="qty">
-        <button onclick="changeQty('${i.name}',-1)">-</button>
-        <span>${i.qty}</span>
-        <button onclick="changeQty('${i.name}',1)">+</button>
+    box.innerHTML += `
+      <div class="row">
+        <div>
+          <b>${item.name}</b><br>
+          ₹${price} x ${qty}
+        </div>
+
+        <div class="qty">
+          <button onclick="changeQty('${item.name}', -1)">-</button>
+          <span>${qty}</span>
+          <button onclick="changeQty('${item.name}', 1)">+</button>
+        </div>
+
+        <span class="remove" onclick="removeItem('${item.name}')">🗑</span>
       </div>
-      <span class="remove" onclick="removeItem('${i.name}')">🗑</span></div><hr>`;
+      <hr>
+    `;
   });
 
-  const t=document.getElementById('total'); 
-  if(t) t.innerText = totalAmount || 0;
+  const t = document.getElementById('total');
+  if (t) t.innerText = totalAmount;
 }
-</b><br>₹${i.price} x ${i.qty}</div>
-      <div class="qty">
-        <button onclick="changeQty('${i.name}',-1)">-</button>
-        <span>${i.qty}</span>
-        <button onclick="changeQty('${i.name}',1)">+</button>
-      </div>
-      <span class="remove" onclick="removeItem('${i.name}')">🗑</span></div><hr>`;
-  });
-  const t=document.getElementById('total'); if(t) t.innerText=total();
-}
-function goToPayment(){ if(!cart.length) return alert('Cart is empty'); location.href='payment.html'; }
 
-function loadPayment(){ 
-  renderCart(); 
+// ======================= NAVIGATION =======================
+function goToPayment() {
+  if (!cart.length) {
+    alert("Cart is empty");
+    return;
+  }
+  window.location.href = 'payment.html';
+}
+
+// ======================= PAYMENT PAGE LOAD =======================
+function loadPayment() {
+  renderCart();
+
   const grand = document.getElementById('grand');
-  if(grand) grand.innerText = total();
-  renderInvoice(); 
+  if (grand) {
+    grand.innerText = total();
+  }
+
+  renderInvoice();
 }
 
+// ======================= INVOICE =======================
+function renderInvoice() {
+  const inv = document.getElementById('invoice');
+  if (!inv) return;
 
-function renderInvoice(){
-  const inv=document.getElementById('invoice'); if(!inv) return;
-  const id='QB'+Date.now().toString().slice(-6);
-  let html=`<div class='invoice'><h3>Invoice</h3><p>Order ID: <b>${id}</b></p><p>Date: ${new Date().toLocaleString()}</p><hr>`;
-  cart.forEach(i=> html+=`<p>${i.name} x ${i.qty} — ₹${i.price*i.qty}</p>`);
-  html+=`<hr><p class='total'>Total: ₹${total()}</p></div>`;
-  inv.innerHTML=html;
+  const orderId = 'QB' + Date.now().toString().slice(-6);
+
+  let html = `
+    <div class='invoice'>
+      <h3>Invoice</h3>
+      <p>Order ID: <b>${orderId}</b></p>
+      <p>Date: ${new Date().toLocaleString()}</p>
+      <hr>
+  `;
+
+  cart.forEach(item => {
+    const price = Number(item.price) || 0;
+    const qty = Number(item.qty) || 0;
+
+    html += `<p>${item.name} x ${qty} — ₹${price * qty}</p>`;
+  });
+
+  html += `
+      <hr>
+      <p class='total'>Total: ₹${total()}</p>
+    </div>
+  `;
+
+  inv.innerHTML = html;
 }
 
-function startTimer(){
-  let secs=900; // 15 min
-  const el=document.getElementById('timer');
-  const int=setInterval(()=>{
-    const m=Math.floor(secs/60), s=secs%60;
-    el.innerText=`ETA: ${m}:${s.toString().padStart(2,'0')}`;
-    secs--; if(secs<0){clearInterval(int); el.innerText='Delivered'; setStep(4);} 
-  },1000);
-}
-function setStep(n){
-  document.querySelectorAll('.status-step').forEach((e,i)=> e.classList.toggle('active', i<n));
+// ======================= DELIVERY TIMER =======================
+function startTimer() {
+  let secs = 900; // 15 minutes
+  const el = document.getElementById('timer');
+
+  if (!el) return;
+
+  const interval = setInterval(() => {
+    const m = Math.floor(secs / 60);
+    const s = secs % 60;
+
+    el.innerText = `ETA: ${m}:${s.toString().padStart(2, '0')}`;
+
+    secs--;
+
+    if (secs < 0) {
+      clearInterval(interval);
+      el.innerText = "Delivered";
+      setStep(4);
+    }
+  }, 1000);
 }
 
-// Homepage search filter
-function filterRestaurants(){
-  const q=document.getElementById('searchInput').value.toLowerCase();
-  document.querySelectorAll('.res-card').forEach(c=>{
-    const name=c.dataset.name.toLowerCase();
-    c.style.display = name.includes(q) ? 'block' : 'none';
+// ======================= TRACKING STATUS =======================
+function setStep(n) {
+  const steps = document.querySelectorAll('.status-step');
+
+  steps.forEach((step, index) => {
+    step.classList.toggle('active', index < n);
+  });
+}
+
+// ======================= SEARCH =======================
+function filterRestaurants() {
+  const input = document.getElementById('searchInput');
+  if (!input) return;
+
+  const query = input.value.toLowerCase();
+
+  document.querySelectorAll('.res-card').forEach(card => {
+    const name = card.dataset.name.toLowerCase();
+    card.style.display = name.includes(query) ? 'block' : 'none';
   });
 }
