@@ -1,26 +1,16 @@
-<!DOCTYPE html>
-<html>
-<head>
-<link rel="stylesheet" href="css/styles.css">
-<script src="js/script.js"></script>
-</head>
-<body>
+<!DOCTYPE html><html><head>
+<link rel="stylesheet" href="css/styles.css"><script src="js/script.js"></script></head>
+<body onload="renderCart()">
 <header>Italiano Delight</header>
 <div class="container grid">
-<div class="card">
-<h4>Pizza - ₹300</h4>
-<button onclick="addToCart('Pizza',300)">Add</button>
-</div>
-<div class="card">
-<h4>Pasta - ₹250</h4>
-<button onclick="addToCart('Pasta',250)">Add</button>
-</div>
+  <div class="card"><h4>Margherita Pizza</h4><p>₹300</p><button onclick="addToCart('Margherita Pizza',300)">Add</button></div>
+  <div class="card"><h4>White Sauce Pasta</h4><p>₹250</p><button onclick="addToCart('White Sauce Pasta',250)">Add</button></div>
+  <div class="card"><h4>Garlic Bread</h4><p>₹120</p><button onclick="addToCart('Garlic Bread',120)">Add</button></div>
 </div>
 <div class="cart">
-<h3>Cart</h3>
-<div id="cart-items"></div>
-<p>Total: ₹<span id="total">0</span></p>
-<button onclick="goToPayment()">Checkout</button>
+  <h3>Your Cart</h3>
+  <div id="cart-items"></div>
+  <p class="total">Total: ₹<span id="total">0</span></p>
+  <button onclick="goToPayment()">Checkout</button>
 </div>
-</body>
-</html>
+</body></html>
