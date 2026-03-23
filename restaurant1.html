@@ -1,26 +1,16 @@
-<!DOCTYPE html>
-<html>
-<head>
-<link rel="stylesheet" href="css/styles.css">
-<script src="js/script.js"></script>
-</head>
-<body>
+<!DOCTYPE html><html><head>
+<link rel="stylesheet" href="css/styles.css"><script src="js/script.js"></script></head>
+<body onload="renderCart()">
 <header>Spicy Hub</header>
 <div class="container grid">
-<div class="card">
-<h4>Biryani - ₹200</h4>
-<button onclick="addToCart('Biryani',200)">Add</button>
-</div>
-<div class="card">
-<h4>Fried Rice - ₹150</h4>
-<button onclick="addToCart('Fried Rice',150)">Add</button>
-</div>
+  <div class="card"><h4>Chicken Biryani</h4><p>₹200</p><button onclick="addToCart('Chicken Biryani',200)">Add</button></div>
+  <div class="card"><h4>Veg Fried Rice</h4><p>₹150</p><button onclick="addToCart('Veg Fried Rice',150)">Add</button></div>
+  <div class="card"><h4>Paneer Curry</h4><p>₹180</p><button onclick="addToCart('Paneer Curry',180)">Add</button></div>
 </div>
 <div class="cart">
-<h3>Cart</h3>
-<div id="cart-items"></div>
-<p>Total: ₹<span id="total">0</span></p>
-<button onclick="goToPayment()">Checkout</button>
+  <h3>Your Cart</h3>
+  <div id="cart-items"></div>
+  <p class="total">Total: ₹<span id="total">0</span></p>
+  <button onclick="goToPayment()">Checkout</button>
 </div>
-</body>
-</html>
+</body></html>
