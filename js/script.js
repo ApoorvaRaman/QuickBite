@@ -16,13 +16,34 @@ function changeQty(name,delta){
 
 function removeItem(name){cart=cart.filter(i=>i.name!==name);save();}
 
-function total(){return cart.reduce((s,i)=>s+i.price*i.qty,0)}
+function total(){
+  if(!cart || cart.length===0) return 0;
+  return cart.reduce((sum,i)=> sum + (i.price * i.qty || 0), 0);
+}
+
 
 function renderCart(){
   const box=document.getElementById('cart-items'); if(!box) return;
   box.innerHTML='';
+  let totalAmount = 0;
+
   cart.forEach(i=>{
+    const itemTotal = i.price * i.qty;
+    totalAmount += itemTotal;
+
     box.innerHTML+=`<div class="row"><div><b>${i.name}</b><br>₹${i.price} x ${i.qty}</div>
+      <div class="qty">
+        <button onclick="changeQty('${i.name}',-1)">-</button>
+        <span>${i.qty}</span>
+        <button onclick="changeQty('${i.name}',1)">+</button>
+      </div>
+      <span class="remove" onclick="removeItem('${i.name}')">🗑</span></div><hr>`;
+  });
+
+  const t=document.getElementById('total'); 
+  if(t) t.innerText = totalAmount || 0;
+}
+</b><br>₹${i.price} x ${i.qty}</div>
       <div class="qty">
         <button onclick="changeQty('${i.name}',-1)">-</button>
         <span>${i.qty}</span>
@@ -32,10 +53,15 @@ function renderCart(){
   });
   const t=document.getElementById('total'); if(t) t.innerText=total();
 }
-
 function goToPayment(){ if(!cart.length) return alert('Cart is empty'); location.href='payment.html'; }
 
-function loadPayment(){ renderCart(); document.getElementById('grand').innerText=total(); renderInvoice(); }
+function loadPayment(){ 
+  renderCart(); 
+  const grand = document.getElementById('grand');
+  if(grand) grand.innerText = total();
+  renderInvoice(); 
+}
+
 
 function renderInvoice(){
   const inv=document.getElementById('invoice'); if(!inv) return;
@@ -45,6 +71,7 @@ function renderInvoice(){
   html+=`<hr><p class='total'>Total: ₹${total()}</p></div>`;
   inv.innerHTML=html;
 }
+
 function startTimer(){
   let secs=900; // 15 min
   const el=document.getElementById('timer');
@@ -54,7 +81,6 @@ function startTimer(){
     secs--; if(secs<0){clearInterval(int); el.innerText='Delivered'; setStep(4);} 
   },1000);
 }
-
 function setStep(n){
   document.querySelectorAll('.status-step').forEach((e,i)=> e.classList.toggle('active', i<n));
 }
@@ -67,4 +93,3 @@ function filterRestaurants(){
     c.style.display = name.includes(q) ? 'block' : 'none';
   });
 }
-
