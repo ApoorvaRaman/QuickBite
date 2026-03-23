@@ -1,27 +1,22 @@
 # QuickBite 🍔
+**Crave it. Click it. QuickBite delivers.**
 
-### Tagline
-Crave it. Click it. QuickBite delivers.
+## Overview
+Frontend-only food ordering system for a DBMS group project. Demonstrates menu browsing, cart management, payment simulation, and delivery tracking.
 
-### Description
-QuickBite is a frontend-only online food ordering system built for a DBMS group project. It simulates real-world food delivery platforms.
+## Features
+- Restaurant search on homepage
+- Add to cart, quantity (+/-), remove 🗑
+- Persistent cart (localStorage)
+- Payment page with invoice + order ID
+- Delivery tracking with ETA countdown
+- Responsive layout
 
-### Features
-- User Login UI
-- Restaurant browsing
-- Add to Cart system
-- Payment simulation
-- Order tracking UI
+## Tech Stack
+HTML, CSS, JavaScript
 
-### Tech Stack
-- HTML
-- CSS
-- JavaScript
+## Run
+Open `login.html` in a browser.
 
-### How to Run
-1. Download repo
-2. Open login.html
-3. Navigate through system
-
-### License
-MIT License (Free for academic and personal use)
+## License
+MIT License
