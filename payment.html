@@ -1,18 +1,17 @@
-<!DOCTYPE html>
-<html>
-<head>
-<link rel="stylesheet" href="css/styles.css">
-<script src="js/script.js"></script>
-</head>
+<!DOCTYPE html><html><head>
+<link rel="stylesheet" href="css/styles.css"><script src="js/script.js"></script></head>
 <body onload="loadPayment()">
 <header>Payment</header>
-<div class="container">
-<div class="card">
-<h3>Order Summary</h3>
-<div id="summary"></div>
-<h3>Total: ₹<span id="total"></span></h3>
-<button onclick="location.href='tracking.html'">Pay Now</button>
+<div class="container grid">
+  <div class="card">
+    <h3>Order Summary</h3>
+    <div id="cart-items"></div>
+    <h3>Grand Total: ₹<span id="grand"></span></h3>
+    <div class="row">
+      <select><option>UPI</option><option>Card</option><option>Cash on Delivery</option></select>
+      <button onclick="location.href='tracking.html'">Pay Now</button>
+    </div>
+  </div>
+  <div id="invoice"></div>
 </div>
-</div>
-</body>
-</html>
+</body></html>
