@@ -1,12 +1,14 @@
 :root{--grad:linear-gradient(90deg,#ff4d4d,#ff944d);} 
 *{box-sizing:border-box}
-body{font-family:'Segoe UI',sans-serif;margin:0;background:#f4f6f9;color:#222}
+body{font-family:'Segoe UI',sans-serif;margin:0;background:#f4f6f9;color:#222;min-height:100vh;display:flex;flex-direction:column}
+
+body > *:not(footer){flex:1}
 header{background:var(--grad);color:#fff;padding:18px 20px;font-size:24px;font-weight:700}
 .navbar{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:10px 20px;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.08)}
 .brand{font-weight:700}
 .search{flex:1;max-width:500px}
 .search input{width:100%;padding:10px 12px;border-radius:999px;border:1px solid #ddd}
-.container{padding:20px;max-width:1200px;margin:auto}
+.container{padding:20px;max-width:1400px;margin:auto;min-height:calc(100vh - 120px)}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
 .card{background:#fff;border-radius:16px;padding:18px;box-shadow:0 6px 16px rgba(0,0,0,.08);transition:.2s}
 .card:hover{transform:translateY(-4px)}
