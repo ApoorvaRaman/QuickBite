@@ -1,19 +1,24 @@
-<!DOCTYPE html>
-<html>
-<head>
-<link rel="stylesheet" href="css/styles.css">
-</head>
+<!DOCTYPE html><html><head><link rel="stylesheet" href="css/styles.css"></head>
 <body>
 <header>QuickBite</header>
+<div class="navbar">
+  <div class="brand">🍔 QuickBite</div>
+  <div class="search"><input id="searchInput" onkeyup="filterRestaurants()" placeholder="Search restaurants..."></div>
+  <button onclick="location.href='login.html'" class="secondary">Logout</button>
+</div>
 <div class="container grid">
-<div class="card">
-<h3>Spicy Hub</h3>
-<button onclick="location.href='restaurant1.html'">View Menu</button>
+  <div class="card res-card" data-name="Spicy Hub">
+    <span class="badge">Indian</span>
+    <h3>Spicy Hub</h3>
+    <p>Biryani, Rice, Curries</p>
+    <button onclick="location.href='restaurant1.html'">View Menu</button>
+  </div>
+  <div class="card res-card" data-name="Italiano Delight">
+    <span class="badge">Italian</span>
+    <h3>Italiano Delight</h3>
+    <p>Pizza, Pasta</p>
+    <button onclick="location.href='restaurant2.html'">View Menu</button>
+  </div>
 </div>
-<div class="card">
-<h3>Italiano Delight</h3>
-<button onclick="location.href='restaurant2.html'">View Menu</button>
-</div>
-</div>
-</body>
-</html>
+<div class="footer">Crave it. Click it. QuickBite delivers.</div>
+</body></html>
