@@ -1,15 +1,12 @@
-<!DOCTYPE html>
-<html>
-<head>
-<link rel="stylesheet" href="css/styles.css">
-</head>
-<body>
-<header>Tracking</header>
-<div class="container">
-<div class="status-step active">Order Placed</div>
-<div class="status-step active">Preparing</div>
-<div class="status-step">Out for Delivery</div>
-<div class="status-step">Delivered</div>
+<!DOCTYPE html><html><head>
+<link rel="stylesheet" href="css/styles.css"><script src="js/script.js"></script></head>
+<body onload="setStep(2);startTimer()">
+<header>Order Tracking</header>
+<div class="container status">
+  <div class="status-step active">Order Placed</div>
+  <div class="status-step active">Preparing</div>
+  <div class="status-step">Out for Delivery</div>
+  <div class="status-step">Delivered</div>
+  <div id="timer" class="timer"></div>
 </div>
-</body>
-</html>
+</body></html>
